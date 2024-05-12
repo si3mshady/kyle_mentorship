@@ -1,6 +1,3 @@
-Sure, I'll provide you with a Docker Compose file that uses verified images from Docker Hub and a configuration that should work out of the box for monitoring a PostgreSQL database with Prometheus and Grafana, including the necessary exporter.
-
-Here's the Docker Compose file:
 
 ```yaml
 version: '3'
@@ -50,7 +47,6 @@ volumes:
   grafana-data:
 ```
 
-I've verified the following image versions on Docker Hub:
 
 - `postgres:14.7`: The latest version of the official PostgreSQL Docker image as of May 2024.
 - `prom/prometheus:v2.43.0`: The latest stable version of the Prometheus Docker image as of May 2024.
