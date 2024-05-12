@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  # PostgreSQL Database
+  db:
+    image: postgres:14.7
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - 9090:9090
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:9.4.3
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: changeme
+
+  # PostgreSQL Exporter
+  postgres_exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.11.1
+    ports:
+      - 9187:9187
+    environment:
+      DATA_SOURCE_NAME: 'postgresql://postgres:changeme@db:5432/postgres?sslmode=disable'
+
+volumes:
+  db-data:
+  grafana-data:
